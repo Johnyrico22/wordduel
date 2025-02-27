@@ -18,6 +18,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
+//sounds
+const correctSound = new Audio("sounds/correct.mp3");
+const wrongSound = new Audio("sounds/incorrect.mp3");
+
 // Load leaderboard on page load
 window.onload = function() {
     loadLeaderboard();
@@ -159,6 +163,7 @@ function checkAnswer(selectedButton, correctWord, definition) {
 
     if (isCorrect) {
         launchConfetti(); // 🎆 Launch confetti
+        correctSound.play();
         score++;
         document.getElementById("score").textContent = "Score: " + score;
 
@@ -167,6 +172,7 @@ function checkAnswer(selectedButton, correctWord, definition) {
         selectedButton.innerHTML = "&#10004;";
         
     } else {
+        wrongSound.play();
         lives--;
         document.getElementById("lives").textContent = "Lives: " + lives;
 
