@@ -98,18 +98,27 @@ function startGame() {
     // ✅ Hide Instructions
     document.getElementById("instructions-container").classList.add("hidden");
 
-    // ✅ Show the prompt container (so that it appears)
+    // ✅ Show the prompt container
     document.getElementById("prompt-container").style.display = "block";
     document.getElementById("prompt").style.display = "block";
 
-    // ✅ Ensure the leaderboard is hidden when restarting
+    // ✅ Hide leaderboard & input form
     document.getElementById("leaderboard-container").style.display = "none";
+    document.getElementById("username-container").style.display = "none";
+
+    // ✅ Re-enable answer buttons when restarting
+    document.getElementById("option1").disabled = false;
+    document.getElementById("option2").disabled = false;
+    
+    // ✅ Reset button styles to default
+    document.getElementById("option1").style.backgroundColor = "#007bff";
+    document.getElementById("option1").innerHTML = "";
+    document.getElementById("option2").style.backgroundColor = "#ff9800";
+    document.getElementById("option2").innerHTML = "";
 
     startCountdown();
     generateWordPair();
 }
-
-
 
 function startCountdown() {
     clearInterval(timer); // Reset timer
@@ -176,22 +185,14 @@ function checkAnswer(selectedButton, correctWord, definition) {
     document.getElementById("option2").disabled = true;
 
     if (isCorrect) {
-        launchConfetti(); // 🎆 Launch confetti
-        correctSound.play();
         score++;
         document.getElementById("score").textContent = "Score: " + score;
-
-        // ✅ Show Green Checkmark
-        selectedButton.style.backgroundColor = "#28a745";
+        selectedButton.style.backgroundColor = "#28a745"; // ✅ Green for correct answer
         selectedButton.innerHTML = "&#10004;";
-        
     } else {
-        wrongSound.play();
         lives--;
         document.getElementById("lives").textContent = "Lives: " + lives;
-
-        // ✅ Show Red Cross
-        selectedButton.style.backgroundColor = "#d32f2f";
+        selectedButton.style.backgroundColor = "#d32f2f"; // ✅ Red for wrong answer
         selectedButton.innerHTML = "&#10008;";
 
         // ✅ End game if no lives left
@@ -200,6 +201,16 @@ function checkAnswer(selectedButton, correctWord, definition) {
             return;
         }
     }
+
+    // ✅ Move to the next question after 1 second & re-enable buttons
+    setTimeout(() => {
+        generateWordPair();
+        document.getElementById("option1").disabled = false;
+        document.getElementById("option2").disabled = false;
+        document.getElementById("option1").innerHTML = "";
+        document.getElementById("option2").innerHTML = "";
+    }, 1000);
+}
 
     // ✅ Move to the next question after 1 second & re-enable buttons
     setTimeout(() => {
