@@ -4,13 +4,14 @@ import { getDatabase, ref, push, set, orderByChild, limitToLast, get } from "htt
 
 // Firebase Configuration (DO NOT expose API keys in index.html)
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCieuR8-ud_W4aCRfl5Z-OKtxQuHfDFIOQ",
+  authDomain: "word-duel-a6eb9.firebaseapp.com",
+  databaseURL: "https://word-duel-a6eb9-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "word-duel-a6eb9",
+  storageBucket: "word-duel-a6eb9.firebasestorage.app",
+  messagingSenderId: "597092630133",
+  appId: "1:597092630133:web:93ba5b90b311367e85023c",
+  measurementId: "G-HJ83X7XWJJ"
 };
 
 // Initialize Firebase
