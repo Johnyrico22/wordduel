@@ -15,7 +15,7 @@
 
     <div id="game-container">
         
-        <!-- Game Instructions and Prompt Container -->
+        <!-- Instructions Container (Will be hidden when the game starts) -->
         <div id="instructions-container">
             <p id="instructions">
                 You have 60 seconds to answer as many questions as possible.<br><br>
@@ -24,8 +24,10 @@
                 If you run out of lives, the game ends immediately.<br><br>
                 <strong>Ready?</strong>
             </p>
+        </div>
 
-            <!-- This will display the prompt inside the container -->
+        <!-- Prompt Container (Stays visible during the game) -->
+        <div id="prompt-container">
             <p id="prompt" style="display:none;"></p>
         </div>
 
@@ -55,11 +57,11 @@
 
         <button id="start-btn" style="display:none;">Play Again</button>
 
-<!-- Leaderboard Section -->
-<div id="leaderboard-container">
-    <h2>Leaderboard</h2>
-    <ul id="leaderboard"></ul>
-</div>
+        <!-- Leaderboard Section -->
+        <div id="leaderboard-container">
+            <h2>Leaderboard</h2>
+            <ul id="leaderboard"></ul>
+        </div>
 
     </div>
 

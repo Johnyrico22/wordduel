@@ -1,3 +1,4 @@
+/* General Styling */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -7,15 +8,6 @@ body {
     height: 100vh;
     overflow: hidden;
 }
-
-#game-title {
-    font-size: 36px;
-    font-weight: bold;
-    color: #007bff; /* Bright blue */
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-
 
 #game-container {
     background: white;
@@ -34,6 +26,49 @@ h1 {
     color: #ff5733;
 }
 
+/* Instructions Container */
+#instructions-container {
+    background: #f9f9f9; /* Light background */
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+#instructions {
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+    line-height: 1.6;
+}
+
+/* Prompt Container */
+#prompt-container {
+    background: #eef7ff;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    display: none;
+}
+
+/* Timer & Score Display */
+#timer-container {
+    font-size: 20px;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+#score-lives-container {
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Buttons */
 button {
     padding: 15px;
     margin: 10px;
@@ -62,6 +97,7 @@ button {
     color: white;
 }
 
+/* Definition Text */
 #definition {
     font-size: 16px;
     margin-top: 15px;
@@ -73,6 +109,7 @@ button {
     display: none;
 }
 
+/* Game Over Message */
 #result {
     font-size: 26px;
     font-weight: bold;
@@ -80,95 +117,9 @@ button {
     display: none;
 }
 
-button:active {
-    transform: scale(0.95);
-}
-
-/* Game Title Block */
-#title-container {
-    background: #007bff; /* Bright blue background */
-    padding: 20px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#game-title {
-    font-size: 36px;
-    font-weight: bold;
-    color: white; /* White text */
-    text-transform: uppercase;
-    margin: 0;
-}
-
-
-/* Timer Section */
-#timer-container {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 20px; /* More space */
-}
-
-/* Lives and Score Row */
-#score-lives-container {
-    font-size: 18px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-/* Word Container */
-#word-container {
-    margin-bottom: 20px;
-}
-
-/* Game Over Message */
-#result {
-    font-size: 32px;
-    font-weight: bold;
-    color: #d32f2f;
-    display: none;
-    margin-bottom: 10px;
-}
-
-/* Final Score Display */
-#final-score {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    display: none;
-    margin-bottom: 20px;
-}
-/* Instructions and Prompt Container */
-#instructions-container {
-    background: #f0f0f0; /* Light grey background */
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-/* Game Instructions */
-#instructions {
-    font-size: 16px;
-    color: #333; /* Dark grey text */
-    text-align: left;
-    margin: 0;
-    line-height: 1.6;
-}
-
-/* Prompt (Helper Context Sentence) */
-#prompt {
-    font-size: 18px;
-    color: #000; /* Slightly darker text */
-    font-weight: bold;
-    margin-top: 15px;
-    display: none;
-}
-
-/* Leaderboard Container */
+/* Leaderboard */
 #leaderboard-container {
-    background: #f9f9f9; /* Light background */
+    background: #f9f9f9;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -178,7 +129,6 @@ button:active {
     text-align: center;
 }
 
-/* Leaderboard Title */
 #leaderboard-container h2 {
     font-size: 24px;
     font-weight: bold;
@@ -186,14 +136,12 @@ button:active {
     margin-bottom: 15px;
 }
 
-/* Leaderboard List */
 #leaderboard {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-/* Leaderboard Items */
 #leaderboard li {
     background: white;
     padding: 12px;
@@ -203,4 +151,9 @@ button:active {
     font-weight: bold;
     color: #333;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hide Instructions When Game Starts */
+.hidden {
+    display: none !important;
 }

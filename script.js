@@ -51,18 +51,19 @@ function startGame() {
     document.getElementById("start-btn").style.display = "none";
     document.getElementById("timer").style.display = "block";
     document.getElementById("score-lives-container").style.display = "flex";
-    document.getElementById("prompt").style.display = "block";
+    document.getElementById("prompt-container").style.display = "block"; // ✅ Keep prompt visible
     document.getElementById("word-container").style.display = "block";
     document.getElementById("definition").style.display = "none";
     document.getElementById("result").style.display = "none";
     document.getElementById("final-score").style.display = "none";
 
     // ✅ Hide Instructions
-    document.getElementById("instructions-container").style.display = "none";
+    document.getElementById("instructions-container").classList.add("hidden");
 
     startCountdown();
     generateWordPair();
 }
+
 
 
 function startCountdown() {
