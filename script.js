@@ -26,6 +26,7 @@ const game = (() => {
   let lives = 3;
   let timeLeft = 60;
   let timer;
+  const usedWordPairs = new Set(); // Track used word pairs
 
   const startGame = () => {
     console.log("Game started!");
@@ -33,6 +34,7 @@ const game = (() => {
     score = 0;
     lives = 3;
     timeLeft = 60;
+    usedWordPairs.clear(); // Clear used word pairs at the start of the game
 
     document.getElementById("score").textContent = "Score: 0";
     document.getElementById("lives").textContent = "Lives: " + lives;
@@ -74,7 +76,13 @@ const game = (() => {
   };
 
   const generateWordPair = () => {
-    const pair = phonicsWords[Math.floor(Math.random() * phonicsWords.length)];
+    let pair;
+    do {
+      pair = phonicsWords[Math.floor(Math.random() * phonicsWords.length)];
+    } while (usedWordPairs.has(pair[0])); // Ensure the word pair has not been used
+
+    usedWordPairs.add(pair[0]); // Add the word pair to the used set
+
     const correctWord = pair[0];
     const incorrectWord = pair[1];
     const sentence = pair[2];
