@@ -63,11 +63,12 @@ function startGame() {
     document.getElementById("prompt-container").style.display = "block";
     document.getElementById("prompt").style.display = "block";
 
+    // ✅ Hide leaderboard when restarting the game
+    document.getElementById("leaderboard-container").style.display = "none";
+
     startCountdown();
     generateWordPair();
 }
-
-
 
 
 function startCountdown() {
@@ -113,37 +114,49 @@ function generateWordPair() {
 function checkAnswer(selectedButton, correctWord, definition) {
     let isCorrect = selectedButton.textContent === correctWord;
 
+    // ✅ Disable both answer buttons immediately after clicking
+    document.getElementById("option1").disabled = true;
+    document.getElementById("option2").disabled = true;
+
     if (isCorrect) {
         score++;
         document.getElementById("score").textContent = "Score: " + score;
 
-        // Correct animation: Green + Thumbs up
+        // ✅ Correct animation: Green + Thumbs up
         selectedButton.style.backgroundColor = "#28a745";
-        selectedButton.innerHTML = "&#10004;"; 
+        selectedButton.innerHTML = "&#10004;";
     } else {
         lives--;
         document.getElementById("lives").textContent = "Lives: " + lives;
 
-        // Wrong animation: Red + Cross
+        // ✅ Wrong animation: Red + Cross
         selectedButton.style.backgroundColor = "#d32f2f";
-        selectedButton.innerHTML = "&#10008;"; 
+        selectedButton.innerHTML = "&#10008;";
 
-        // End game if no lives left
+        // ✅ End game if no lives left
         if (lives === 0) {
             setTimeout(endGame, 1000);
             return;
         }
     }
 
-    // Move to next question after 1 second
-    setTimeout(generateWordPair, 1000);
+    // ✅ Move to the next question after 1 second & re-enable buttons
+    setTimeout(() => {
+        generateWordPair();
+        document.getElementById("option1").disabled = false;
+        document.getElementById("option2").disabled = false;
+    }, 1000);
 }
+
 
 function endGame() {
     clearInterval(timer);
 
-    document.getElementById("prompt").style.display = "none";
+    document.getElementById("prompt-container").style.display = "none";
     document.getElementById("word-container").style.display = "none";
+    document.getElementById("score-lives-container").style.display = "none";
+    document.getElementById("timer").style.display = "none";
+
     document.getElementById("result").textContent = "Game Over!";
     document.getElementById("result").style.fontSize = "32px";
     document.getElementById("result").style.display = "block";
@@ -151,18 +164,22 @@ function endGame() {
     document.getElementById("final-score").textContent = "Final Score: " + score;
     document.getElementById("final-score").style.display = "block";
 
-    document.getElementById("score-lives-container").style.display = "none";
-    document.getElementById("timer").style.display = "none";
-
     document.getElementById("start-btn").textContent = "Play Again";
     document.getElementById("start-btn").style.display = "block";
+
+    // ✅ Show the leaderboard when the game ends
+    document.getElementById("leaderboard-container").style.display = "block";
 
     // Ask for player's name and submit score
     let playerName = prompt("Enter your name (max 10 characters):").substring(0, 10);
     if (playerName) {
         submitScore(playerName, score);
     }
+
+    // ✅ Load leaderboard after submitting the score
+    loadLeaderboard();
 }
+
 
 // Submit Score to Firebase
 function submitScore(name, score) {

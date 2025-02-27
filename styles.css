@@ -119,6 +119,7 @@ button {
 
 /* Leaderboard */
 #leaderboard-container {
+    display: none; /* ✅ Start hidden */
     background: #f9f9f9;
     padding: 20px;
     border-radius: 12px;
@@ -128,6 +129,7 @@ button {
     margin: 20px auto;
     text-align: center;
 }
+
 
 #leaderboard-container h2 {
     font-size: 24px;
