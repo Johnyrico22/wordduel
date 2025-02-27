@@ -59,16 +59,17 @@ function startGame() {
     // ✅ Hide Instructions
     document.getElementById("instructions-container").classList.add("hidden");
 
-    // ✅ Make the prompt container and text visible
+    // ✅ Show the prompt container (so that it appears)
     document.getElementById("prompt-container").style.display = "block";
     document.getElementById("prompt").style.display = "block";
 
-    // ✅ Hide leaderboard when restarting the game
+    // ✅ Ensure the leaderboard is hidden when restarting
     document.getElementById("leaderboard-container").style.display = "none";
 
     startCountdown();
     generateWordPair();
 }
+
 
 
 function startCountdown() {
@@ -114,7 +115,7 @@ function generateWordPair() {
 function checkAnswer(selectedButton, correctWord, definition) {
     let isCorrect = selectedButton.textContent === correctWord;
 
-    // ✅ Disable both answer buttons immediately after clicking
+    // ✅ Disable both answer buttons immediately after one is clicked
     document.getElementById("option1").disabled = true;
     document.getElementById("option2").disabled = true;
 
@@ -122,14 +123,14 @@ function checkAnswer(selectedButton, correctWord, definition) {
         score++;
         document.getElementById("score").textContent = "Score: " + score;
 
-        // ✅ Correct animation: Green + Thumbs up
+        // ✅ Show Green Checkmark
         selectedButton.style.backgroundColor = "#28a745";
         selectedButton.innerHTML = "&#10004;";
     } else {
         lives--;
         document.getElementById("lives").textContent = "Lives: " + lives;
 
-        // ✅ Wrong animation: Red + Cross
+        // ✅ Show Red Cross
         selectedButton.style.backgroundColor = "#d32f2f";
         selectedButton.innerHTML = "&#10008;";
 
@@ -147,6 +148,7 @@ function checkAnswer(selectedButton, correctWord, definition) {
         document.getElementById("option2").disabled = false;
     }, 1000);
 }
+
 
 
 function endGame() {
@@ -167,7 +169,7 @@ function endGame() {
     document.getElementById("start-btn").textContent = "Play Again";
     document.getElementById("start-btn").style.display = "block";
 
-    // ✅ Show the leaderboard when the game ends
+    // ✅ Show the leaderboard only when the game ends
     document.getElementById("leaderboard-container").style.display = "block";
 
     // Ask for player's name and submit score
@@ -179,6 +181,7 @@ function endGame() {
     // ✅ Load leaderboard after submitting the score
     loadLeaderboard();
 }
+
 
 
 // Submit Score to Firebase
