@@ -188,3 +188,45 @@ button {
     justify-content: center;
     gap: 20px;
 }
+
+/* Username Input Container */
+#username-container {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Input Field */
+#username {
+    width: 80%;
+    max-width: 250px;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Buttons */
+#submit-score-btn, #skip-score-btn {
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+#submit-score-btn {
+    background: #28a745; /* Green */
+    color: white;
+}
+
+#skip-score-btn {
+    background: #d32f2f; /* Red */
+    color: white;
+}

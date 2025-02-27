@@ -37,6 +37,27 @@ document.addEventListener("DOMContentLoaded", function () {
     loadLeaderboard(); // Load leaderboard on page load
 });
 
+document.getElementById("submit-score-btn").addEventListener("click", function() {
+    let username = document.getElementById("username").value.trim().substring(0, 10);
+
+    if (username) {
+        submitScore(username, score);
+        loadLeaderboard();
+    }
+
+    // ✅ Hide username input and show leaderboard
+    document.getElementById("username-container").style.display = "none";
+    document.getElementById("leaderboard-container").style.display = "block";
+    document.getElementById("start-btn").style.display = "block"; // ✅ Show "Play Again" button
+});
+
+document.getElementById("skip-score-btn").addEventListener("click", function() {
+    // ✅ Just restart the game without submitting
+    document.getElementById("username-container").style.display = "none";
+    startGame();
+});
+
+
 function startGame() {
     console.log("Game started!");
 
@@ -167,21 +188,14 @@ function endGame() {
     document.getElementById("final-score").style.display = "block";
 
     document.getElementById("start-btn").textContent = "Play Again";
-    document.getElementById("start-btn").style.display = "block";
+    document.getElementById("start-btn").style.display = "none"; // ✅ Hide until score is handled
 
-    // ✅ Show the leaderboard only when the game ends
-    document.getElementById("leaderboard-container").style.display = "block";
+    // ✅ Hide leaderboard until the score is submitted
+    document.getElementById("leaderboard-container").style.display = "none";
 
-    // Ask for player's name and submit score
-    let playerName = prompt("Enter your name (max 10 characters):").substring(0, 10);
-    if (playerName) {
-        submitScore(playerName, score);
-    }
-
-    // ✅ Load leaderboard after submitting the score
-    loadLeaderboard();
+    // ✅ Show the username input field
+    document.getElementById("username-container").style.display = "block";
 }
-
 
 
 // Submit Score to Firebase
