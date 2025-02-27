@@ -109,8 +109,6 @@ function startGame() {
     generateWordPair();
 }
 
-
-
 function startCountdown() {
     clearInterval(timer); // Reset timer
 
