@@ -61,6 +61,9 @@ document.getElementById("skip-score-btn").addEventListener("click", function() {
     startGame();
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("game-container").style.opacity = "1";
+});
 
 function startGame() {
     console.log("Game started!");

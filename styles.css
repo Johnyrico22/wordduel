@@ -1,3 +1,30 @@
+/* Fade-In & Bounce Effect */
+@keyframes fadeInBounce {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInMove {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* General Styling */
 body {
     font-family: Arial, sans-serif;
@@ -19,6 +46,9 @@ body {
     margin: 10px auto;
     text-align: center;
     position: relative;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInMove 1.5s ease-out forwards;
 }
 
 h1 {
@@ -165,6 +195,7 @@ button {
     width: 100%; /* ✅ Full width */
     padding: 20px 0; /* ✅ Add some padding */
     text-align: center;
+    animation: fadeInBounce 1.5s ease-out;
 }
 
 #game-title {
