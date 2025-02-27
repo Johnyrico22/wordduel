@@ -66,7 +66,7 @@ const phonicsWords = [
     ["canvas", "canvass", "She painted a beautiful sunset on a __________."],
     ["cereal", "serial", "She eats a bowl of __________ every morning."],
     ["draft", "draught", "He made a rough __________ of his speech before presenting."],
-    ["envelop", "envelope", "She sealed the letter in an __________."],
+    ["envelope", "envelop", "She sealed the letter in an __________."],
     ["faint", "feint", "She felt __________ after skipping lunch."],
     ["foul", "fowl", "The garbage had a __________ smell after sitting in the heat."],
     ["hail", "hale", "The storm brought heavy rain and __________."],
