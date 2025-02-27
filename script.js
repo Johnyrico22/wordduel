@@ -65,59 +65,60 @@ document.getElementById("submit-score-btn").addEventListener("click", function()
     document.getElementById("start-btn").style.display = "block";
 });
 
-
 document.getElementById("skip-score-btn").addEventListener("click", function() {
     document.getElementById("username-container").style.display = "none";
     startGame();
 });
 
-
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("game-container").style.opacity = "1";
 });
 
-function startGame() {
-    console.log("Game started!");
+document.getElementById("start-btn").addEventListener("click", startGame);
 
-    score = 0;
-    lives = 3;
-    timeLeft = 60;
 
-    document.getElementById("score").textContent = "Score: 0";
-    document.getElementById("lives").textContent = "Lives: " + lives;
-    document.getElementById("timer").textContent = "Time: " + timeLeft;
+function endGame() {
+    clearInterval(timer);
 
-    document.getElementById("start-btn").style.display = "none";
-    document.getElementById("timer").style.display = "block";
-    document.getElementById("score-lives-container").style.display = "flex";
-    document.getElementById("word-container").style.display = "block";
-    document.getElementById("definition").style.display = "none";
-    document.getElementById("result").style.display = "none";
-    document.getElementById("final-score").style.display = "none";
+    document.getElementById("prompt-container").style.display = "none";
+    document.getElementById("word-container").style.display = "none";
+    document.getElementById("score-lives-container").style.display = "none";
+    document.getElementById("timer").style.display = "none";
 
-    // ✅ Hide Instructions
-    document.getElementById("instructions-container").classList.add("hidden");
+    document.getElementById("result").textContent = "Game Over!";
+    document.getElementById("result").style.fontSize = "32px";
+    document.getElementById("result").style.display = "block";
 
-    // ✅ Show the prompt container
-    document.getElementById("prompt-container").style.display = "block";
-    document.getElementById("prompt").style.display = "block";
+    document.getElementById("final-score").textContent = "Final Score: " + score;
+    document.getElementById("final-score").style.display = "block";
 
-    // ✅ Hide leaderboard & input form
-    document.getElementById("leaderboard-container").style.display = "none";
-    document.getElementById("username-container").style.display = "none";
+    document.getElementById("start-btn").textContent = "Play Again";
 
-    // ✅ Re-enable answer buttons when restarting
-    document.getElementById("option1").disabled = false;
-    document.getElementById("option2").disabled = false;
-    
-    // ✅ Reset button styles to default
-    document.getElementById("option1").style.backgroundColor = "#007bff";
-    document.getElementById("option1").innerHTML = "";
-    document.getElementById("option2").style.backgroundColor = "#ff9800";
-    document.getElementById("option2").innerHTML = "";
+    // ✅ Always show the leaderboard after the game ends
+    document.getElementById("leaderboard-container").style.display = "block";
+    loadLeaderboard();
 
-    startCountdown();
-    generateWordPair();
+    // ✅ Check if the player qualifies for a high score
+    get(query(ref(database, "leaderboard"), orderByChild("score"), limitToLast(10)))
+    .then((snapshot) => {
+        let scores = [];
+
+        snapshot.forEach(childSnapshot => {
+            let entry = childSnapshot.val();
+            scores.push(entry.score);
+        });
+
+        let lowestTopScore = scores.length < 10 ? 0 : Math.min(...scores);
+
+        if (score > lowestTopScore || scores.length < 10) {
+            // ✅ If the player qualifies, show input form
+            document.getElementById("username-container").style.display = "block";
+            document.getElementById("username-label").textContent = "🎉 Congratulations! You got a high score! Please enter your name:";
+        } else {
+            // ✅ If not in top 10, just show Play Again button
+            document.getElementById("start-btn").style.display = "block";
+        }
+    });
 }
 
 function startCountdown() {
@@ -266,7 +267,6 @@ function endGame() {
     });
 }
 
-
 // Submit Score to Firebase
 function submitScore(name, score) {
     let newEntry = push(ref(database, "leaderboard"));
@@ -306,7 +306,6 @@ function loadLeaderboard() {
         console.error("Error loading leaderboard:", error);
     });
 }
-
 
 // Load leaderboard on page load
 window.onload = function() {
