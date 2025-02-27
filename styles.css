@@ -161,13 +161,16 @@ button {
 
 /* Title Styling */
 #title-container {
+    background: #007bff; /* ✅ Blue background */
+    width: 100%; /* ✅ Full width */
+    padding: 20px 0; /* ✅ Add some padding */
     text-align: center;
-    padding: 20px;
 }
 
 #game-title {
-    font-size: 36px; /* ✅ Bigger size */
-    font-weight: bold; /* ✅ Bold text */
-    color: #007bff; /* ✅ Blue color */
-    margin-bottom: 20px;
+    font-size: 48px; /* ✅ Bigger font size */
+    font-weight: 900; /* ✅ Extra bold */
+    color: white; /* ✅ White text */
+    text-transform: uppercase; /* ✅ Makes it look stronger */
+    margin: 0;
 }
