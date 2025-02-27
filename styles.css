@@ -182,8 +182,6 @@ button {
     padding: 15px 0; /* ✅ Spacing */
     text-align: center;
     font-size: 20px; /* ✅ Larger text */
-    font-weight: bold;
-    border-bottom: 2px solid #007bff; /* ✅ Adds a blue line separator */
     display: flex;
     justify-content: center;
     gap: 20px;
@@ -242,7 +240,7 @@ button {
 
 #timer-bar {
     height: 100%;
-    background: #8c00ff;
+    background: #28205f;
     width: 100%;
     transition: width 1s linear;
 }
