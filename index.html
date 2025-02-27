@@ -7,64 +7,59 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
 <!-- Game Title Block (Full Width) -->
 <div id="title-container">
     <h1 id="game-title">Word Duel</h1>
 </div>
 
-
-    <div id="game-container">
-        
-        <!-- Instructions Container (Will be hidden when the game starts) -->
-        <div id="instructions-container">
-            <p id="instructions">
-                You have 60 seconds to answer as many questions as possible.<br><br>
-                Choose the correct spelling of the word to score points.<br><br>
-                Be careful! You only have 3 lives.<br><br>
-                If you run out of lives, the game ends immediately.<br><br>
-                <strong>Ready?</strong>
-            </p>
-        </div>
-
-        <!-- Prompt Container (Stays visible during the game) -->
-        <div id="prompt-container">
-            <p id="prompt" style="display:none;"></p>
-        </div>
-
-        <button id="start-btn">Start Game</button>
-
-        <div id="timer-container">
-            <div id="timer" style="display:none;">Time: 60</div>
-        </div>
-
-        <div id="score-lives-container" style="display:none;">
-            <span id="score">Score: 0</span> | 
-            <span id="lives">Lives: 3</span>
-        </div>
-
-        <div id="word-container" style="display:none;">
-            <button id="option1"></button>
-            <button id="option2"></button>
-        </div>
-
-        <p id="definition"></p>
-
-        <!-- Game Over Message -->
-        <h2 id="result" style="display:none;">Game Over!</h2>
-
-        <!-- Final Score Display -->
-        <h2 id="final-score" style="display:none;"></h2>
-
-        <button id="start-btn" style="display:none;">Play Again</button>
-
-        <!-- Leaderboard Section -->
-        <div id="leaderboard-container">
-            <h2>Leaderboard</h2>
-            <ul id="leaderboard"></ul>
-        </div>
-
+<!-- Status Block for Timer, Lives, and Score -->
+<div id="status-container">
+    <div id="timer">Time: 60</div>
+    <div id="score-lives-container">
+        <span id="score">Score: 0</span> | 
+        <span id="lives">Lives: 3</span>
     </div>
+</div>
+
+<!-- Main Game Container -->
+<div id="game-container">
+    <!-- Instructions Container (Hidden when game starts) -->
+    <div id="instructions-container">
+        <p id="instructions">
+            You have 60 seconds to answer as many questions as possible.<br><br>
+            Choose the correct spelling of the word to score points.<br><br>
+            Be careful! You only have 3 lives.<br><br>
+            If you run out of lives, the game ends immediately.<br><br>
+            <strong>Ready?</strong>
+        </p>
+    </div>
+
+    <!-- Prompt Container -->
+    <div id="prompt-container">
+        <p id="prompt" style="display:none;"></p>
+    </div>
+
+    <button id="start-btn">Start Game</button>
+
+    <div id="word-container" style="display:none;">
+        <button id="option1"></button>
+        <button id="option2"></button>
+    </div>
+
+    <p id="definition"></p>
+
+    <!-- Game Over Message -->
+    <h2 id="result" style="display:none;">Game Over!</h2>
+    <h2 id="final-score" style="display:none;"></h2>
+    <button id="start-btn" style="display:none;">Play Again</button>
+
+    <!-- Leaderboard Section -->
+    <div id="leaderboard-container">
+        <h2>Leaderboard</h2>
+        <ul id="leaderboard"></ul>
+    </div>
+</div>
+
 
     <!-- External Scripts -->
     <script src="words.js"></script>

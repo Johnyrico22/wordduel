@@ -174,3 +174,17 @@ button {
     text-transform: uppercase; /* ✅ Makes it look stronger */
     margin: 0;
 }
+
+/* Status Container */
+#status-container {
+    background: #f1f1f1; /* ✅ Light grey background */
+    width: 100%; /* ✅ Full width */
+    padding: 15px 0; /* ✅ Spacing */
+    text-align: center;
+    font-size: 20px; /* ✅ Larger text */
+    font-weight: bold;
+    border-bottom: 2px solid #007bff; /* ✅ Adds a blue line separator */
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
