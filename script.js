@@ -1,6 +1,6 @@
 // Import Firebase modules (ES6 style)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getDatabase, ref, push, set, orderByChild, limitToLast, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { getDatabase, ref, push, set, orderByChild, limitToLast, get, query } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 // Firebase Configuration (DO NOT expose API keys in index.html)
 const firebaseConfig = {
@@ -169,7 +169,7 @@ function loadLeaderboard() {
     let leaderboardList = document.getElementById("leaderboard");
     leaderboardList.innerHTML = ""; // ✅ Clear old leaderboard before updating
 
-    // ✅ Query Firebase to get the 5 highest scores
+    // ✅ Query Firebase to get only the 5 highest scores (ordered by score descending)
     get(query(ref(database, "leaderboard"), orderByChild("score"), limitToLast(5)))
     .then((snapshot) => {
         let scores = [];
@@ -179,10 +179,10 @@ function loadLeaderboard() {
             scores.push({ name: entry.name, score: entry.score });
         });
 
-        // ✅ Firebase returns in ascending order; sort from highest to lowest
+        // ✅ Firebase returns scores in ascending order, so we manually sort from highest to lowest
         scores.sort((a, b) => b.score - a.score);
 
-        // ✅ Display the top 5 scores
+        // ✅ Display the top 5 scores only
         scores.forEach(entry => {
             let li = document.createElement("li");
             li.textContent = `${entry.name}: ${entry.score}`;
@@ -192,6 +192,7 @@ function loadLeaderboard() {
         console.error("Error loading leaderboard:", error);
     });
 }
+
 
 // Load leaderboard on page load
 window.onload = function() {
