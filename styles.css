@@ -230,3 +230,19 @@ button {
     background: #d32f2f; /* Red */
     color: white;
 }
+
+#timer-bar-container {
+    width: 100%;
+    height: 10px;
+    background: #ddd;
+    margin: 10px 0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#timer-bar {
+    height: 100%;
+    background: #ff5733;
+    width: 100%;
+    transition: width 1s linear;
+}

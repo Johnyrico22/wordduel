@@ -95,16 +95,24 @@ function startGame() {
 
 function startCountdown() {
     clearInterval(timer); // Reset timer
+
+    let timerBar = document.getElementById("timer-bar");
+    timerBar.style.width = "100%";
+
     timer = setInterval(function () {
         if (timeLeft > 0) {
             timeLeft--;
             document.getElementById("timer").textContent = "Time: " + timeLeft;
+
+            // ⏳ Reduce timer bar width
+            timerBar.style.width = (timeLeft / 60) * 100 + "%";
         } else {
             clearInterval(timer);
             endGame();
         }
     }, 1000);
 }
+
 
 function generateWordPair() {
     let pair = phonicsWords[Math.floor(Math.random() * phonicsWords.length)];
