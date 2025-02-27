@@ -51,7 +51,6 @@ function startGame() {
     document.getElementById("start-btn").style.display = "none";
     document.getElementById("timer").style.display = "block";
     document.getElementById("score-lives-container").style.display = "flex";
-    document.getElementById("prompt-container").style.display = "block"; // ✅ Keep prompt visible
     document.getElementById("word-container").style.display = "block";
     document.getElementById("definition").style.display = "none";
     document.getElementById("result").style.display = "none";
@@ -60,9 +59,14 @@ function startGame() {
     // ✅ Hide Instructions
     document.getElementById("instructions-container").classList.add("hidden");
 
+    // ✅ Make the prompt container and text visible
+    document.getElementById("prompt-container").style.display = "block";
+    document.getElementById("prompt").style.display = "block";
+
     startCountdown();
     generateWordPair();
 }
+
 
 
 

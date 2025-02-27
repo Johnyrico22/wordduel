@@ -41,7 +41,7 @@ h1 {
     line-height: 1.6;
 }
 
-/* Prompt Container */
+/* Ensure the prompt is visible during the game */
 #prompt-container {
     background: #eef7ff;
     padding: 12px;
