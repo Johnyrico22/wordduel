@@ -154,10 +154,44 @@ const game = (() => {
     document.getElementById("final-score").textContent = "Final Score: " + score;
     document.getElementById("final-score").style.display = "block";
 
-    document.getElementById("start-btn").textContent = "Play Again";
-    document.getElementById("start-btn").style.display = "none";
-    document.getElementById("leaderboard-container").style.display = "none";
-    document.getElementById("username-container").style.display = "block";
+    // Check if the score is within the top 10
+    get(query(ref(database, "leaderboard"), orderByChild("score"), limitToLast(100)))
+      .then(snapshot => {
+        const scores = [];
+        snapshot.forEach(childSnapshot => {
+          const entry = childSnapshot.val();
+          scores.push({ name: entry.name, score: entry.score });
+        });
+
+        // Filter out duplicate usernames and keep only the highest score for each unique username
+        const uniqueScores = scores.reduce((acc, current) => {
+          const x = acc.find(item => item.name === current.name);
+          if (!x) {
+            return acc.concat([current]);
+          } else if (x.score < current.score) {
+            return acc.map(item => item.name === current.name ? current : item);
+          } else {
+            return acc;
+          }
+        }, []);
+
+        // Sort scores in descending order and take the top 10
+        uniqueScores.sort((a, b) => b.score - a.score);
+        const topScores = uniqueScores.slice(0, 10);
+
+        // Check if the current score is within the top 10
+        if (topScores.length < 10 || score > topScores[topScores.length - 1].score) {
+          // If within top 10, show the username input field
+          document.getElementById("username-container").style.display = "block";
+        } else {
+          // If not within top 10, show the leaderboard and play again button
+          document.getElementById("leaderboard-container").style.display = "block";
+          document.getElementById("start-btn").style.display = "block";
+        }
+      })
+      .catch(error => {
+        console.error("Error checking leaderboard:", error);
+      });
   };
 
   return {
@@ -184,7 +218,7 @@ const leaderboard = (() => {
     const leaderboardList = document.getElementById("leaderboard");
     leaderboardList.innerHTML = "";
 
-    get(query(ref(database, "leaderboard"), orderByChild("score"), limitToLast(5)))
+    get(query(ref(database, "leaderboard"), orderByChild("score"), limitToLast(100)))
       .then(snapshot => {
         const scores = [];
 
@@ -193,9 +227,23 @@ const leaderboard = (() => {
           scores.push({ name: entry.name, score: entry.score });
         });
 
-        scores.sort((a, b) => b.score - a.score);
+        // Filter out duplicate usernames and keep only the highest score for each unique username
+        const uniqueScores = scores.reduce((acc, current) => {
+          const x = acc.find(item => item.name === current.name);
+          if (!x) {
+            return acc.concat([current]);
+          } else if (x.score < current.score) {
+            return acc.map(item => item.name === current.name ? current : item);
+          } else {
+            return acc;
+          }
+        }, []);
 
-        scores.forEach(entry => {
+        // Sort scores in descending order and take the top 10
+        uniqueScores.sort((a, b) => b.score - a.score);
+        const topScores = uniqueScores.slice(0, 10);
+
+        topScores.forEach(entry => {
           const li = document.createElement("li");
           li.textContent = `${entry.name}: ${entry.score}`;
           leaderboardList.appendChild(li);
