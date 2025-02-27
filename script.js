@@ -44,16 +44,27 @@ document.addEventListener("DOMContentLoaded", function () {
 document.getElementById("submit-score-btn").addEventListener("click", function() {
     let username = document.getElementById("username").value.trim().substring(0, 10);
 
-    if (username) {
-        submitScore(username, score);
-        loadLeaderboard();
+    // ✅ Check if the name contains a banned word
+    if (!username) {
+        alert("Please enter a valid name.");
+        return;
+    }
+    
+    if (containsBadWord(username)) {
+        alert("Inappropriate username detected. Please enter a different name.");
+        return;
     }
 
-    // ✅ Hide username input and show leaderboard
+    // ✅ If the name is clean, submit the score
+    submitScore(username, score);
+    loadLeaderboard();
+
+    // Hide username input and show leaderboard
     document.getElementById("username-container").style.display = "none";
     document.getElementById("leaderboard-container").style.display = "block";
-    document.getElementById("start-btn").style.display = "block"; // ✅ Show "Play Again" button
+    document.getElementById("start-btn").style.display = "block";
 });
+
 
 document.getElementById("skip-score-btn").addEventListener("click", function() {
     // ✅ Just restart the game without submitting
