@@ -158,3 +158,16 @@ button {
 .hidden {
     display: none !important;
 }
+
+/* Title Styling */
+#title-container {
+    text-align: center;
+    padding: 20px;
+}
+
+#game-title {
+    font-size: 36px; /* ✅ Bigger size */
+    font-weight: bold; /* ✅ Bold text */
+    color: #007bff; /* ✅ Blue color */
+    margin-bottom: 20px;
+}
