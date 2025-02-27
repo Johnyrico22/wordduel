@@ -168,16 +168,27 @@ function submitScore(name, score) {
 // Load Leaderboard
 function loadLeaderboard() {
     let leaderboardList = document.getElementById("leaderboard");
-    leaderboardList.innerHTML = ""; // Clear old leaderboard
+    leaderboardList.innerHTML = ""; // ✅ Clear old leaderboard before updating
 
-    get(ref(database, "leaderboard"), orderByChild("score"), limitToLast(10)).then((snapshot) => {
-        let scores = [];
+    get(ref(database, "leaderboard")).then((snapshot) => {
+        let scores = {};
         snapshot.forEach(childSnapshot => {
-            scores.push(childSnapshot.val());
+            let entry = childSnapshot.val();
+            let name = entry.name;
+            let score = entry.score;
+            let timestamp = entry.timestamp;
+
+            // ✅ Keep only the latest entry per username
+            if (!scores[name] || scores[name].timestamp < timestamp) {
+                scores[name] = { name, score, timestamp };
+            }
         });
 
-        scores.reverse(); // Show highest scores first
-        scores.forEach(entry => {
+        // ✅ Convert to an array & sort by highest score
+        let sortedScores = Object.values(scores).sort((a, b) => b.score - a.score);
+
+        // ✅ Display only top 10 latest entries
+        sortedScores.slice(0, 10).forEach(entry => {
             let li = document.createElement("li");
             li.textContent = `${entry.name}: ${entry.score}`;
             leaderboardList.appendChild(li);
@@ -186,6 +197,7 @@ function loadLeaderboard() {
         console.error("Error loading leaderboard:", error);
     });
 }
+
 
 // Load leaderboard on page load
 window.onload = function() {
