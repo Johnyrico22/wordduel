@@ -228,6 +228,14 @@ button {
     text-align: center;
 }
 
+#username-label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 10px;
+    display: block;
+}
+
 /* Input Field */
 #username {
     width: 80%;

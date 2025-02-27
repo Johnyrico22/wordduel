@@ -67,10 +67,10 @@ document.getElementById("submit-score-btn").addEventListener("click", function()
 
 
 document.getElementById("skip-score-btn").addEventListener("click", function() {
-    // ✅ Just restart the game without submitting
     document.getElementById("username-container").style.display = "none";
     startGame();
 });
+
 
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("game-container").style.opacity = "1";
@@ -225,14 +225,32 @@ function endGame() {
     document.getElementById("final-score").style.display = "block";
 
     document.getElementById("start-btn").textContent = "Play Again";
-    document.getElementById("start-btn").style.display = "none"; // ✅ Hide until score is handled
+    document.getElementById("start-btn").style.display = "none"; // ✅ Hide until score check is done
 
-    // ✅ Hide leaderboard until the score is submitted
-    document.getElementById("leaderboard-container").style.display = "none";
+    // ✅ Fetch top 10 scores and determine if the player qualifies
+    get(query(ref(database, "leaderboard"), orderByChild("score"), limitToLast(10)))
+    .then((snapshot) => {
+        let scores = [];
 
-    // ✅ Show the username input field
-    document.getElementById("username-container").style.display = "block";
+        snapshot.forEach(childSnapshot => {
+            let entry = childSnapshot.val();
+            scores.push(entry.score);
+        });
+
+        // ✅ Check if the new score is higher than the lowest score in the Top 10
+        let lowestTopScore = scores.length < 10 ? 0 : Math.min(...scores);
+
+        if (score > lowestTopScore || scores.length < 10) {
+            // ✅ If the player qualifies, show the input form
+            document.getElementById("username-container").style.display = "block";
+            document.getElementById("username-label").textContent = "🎉 Congratulations! You got a high score! Please enter your name:";
+        } else {
+            // ✅ If the player does NOT qualify, just show Play Again button
+            document.getElementById("start-btn").style.display = "block";
+        }
+    });
 }
+
 
 
 // Submit Score to Firebase
