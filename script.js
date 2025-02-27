@@ -170,7 +170,9 @@ function loadLeaderboard() {
     let leaderboardList = document.getElementById("leaderboard");
     leaderboardList.innerHTML = ""; // ✅ Clear old leaderboard before updating
 
-    get(ref(database, "leaderboard")).then((snapshot) => {
+    // ✅ Query Firebase to get only the 5 highest scores (ordered by score descending)
+    get(query(ref(database, "leaderboard"), orderByChild("score"), limitToLast(5)))
+    .then((snapshot) => {
         let scores = [];
 
         snapshot.forEach(childSnapshot => {
@@ -178,11 +180,11 @@ function loadLeaderboard() {
             scores.push({ name: entry.name, score: entry.score });
         });
 
-        // ✅ Sort scores in descending order (highest first)
+        // ✅ Sort scores in descending order (Firebase returns them in ascending order)
         scores.sort((a, b) => b.score - a.score);
 
-        // ✅ Display only the top 5 scores
-        scores.slice(0, 5).forEach(entry => {
+        // ✅ Display the top 5 scores only
+        scores.forEach(entry => {
             let li = document.createElement("li");
             li.textContent = `${entry.name}: ${entry.score}`;
             leaderboardList.appendChild(li);
@@ -191,6 +193,7 @@ function loadLeaderboard() {
         console.error("Error loading leaderboard:", error);
     });
 }
+
 
 
 
