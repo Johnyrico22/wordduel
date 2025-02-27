@@ -2,26 +2,21 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getDatabase, ref, push, set, orderByChild, limitToLast, get, query } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
-// Firebase Configuration (DO NOT expose API keys in index.html)
+// Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCieuR8-ud_W4aCRfl5Z-OKtxQuHfDFIOQ",
-  authDomain: "word-duel-a6eb9.firebaseapp.com",
-  databaseURL: "https://word-duel-a6eb9-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "word-duel-a6eb9",
-  storageBucket: "word-duel-a6eb9.firebasestorage.app",
-  messagingSenderId: "597092630133",
-  appId: "1:597092630133:web:93ba5b90b311367e85023c",
-  measurementId: "G-HJ83X7XWJJ"
+    apiKey: "AIzaSyCieuR8-ud_W4aCRfl5Z-OKtxQuHfDFIOQ",
+    authDomain: "word-duel-a6eb9.firebaseapp.com",
+    databaseURL: "https://word-duel-a6eb9-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "word-duel-a6eb9",
+    storageBucket: "word-duel-a6eb9.firebasestorage.app",
+    messagingSenderId: "597092630133",
+    appId: "1:597092630133:web:93ba5b90b311367e85023c",
+    measurementId: "G-HJ83X7XWJJ"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-
-// Load leaderboard on page load
-window.onload = function() {
-    loadLeaderboard();
-};
 
 // Global variables
 let score = 0;
@@ -45,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("game-container").style.opacity = "1"; // Ensure smooth loading animation
 });
 
-// Start the game
+// **Start the game**
 function startGame() {
     console.log("Game started!");
 
@@ -64,19 +59,29 @@ function startGame() {
     document.getElementById("result").style.display = "none";
     document.getElementById("final-score").style.display = "none";
 
+    // ✅ Hide instructions when the game starts
+    document.getElementById("instructions-container").style.display = "none";
+
+    // ✅ Ensure the prompt is visible
     document.getElementById("prompt-container").style.display = "block";
 
+    // ✅ Hide leaderboard & input form
     document.getElementById("leaderboard-container").style.display = "none";
     document.getElementById("username-container").style.display = "none";
 
+    // ✅ Reset and enable buttons with proper text and colors
     document.getElementById("option1").disabled = false;
     document.getElementById("option2").disabled = false;
+    document.getElementById("option1").style.backgroundColor = "#007bff";
+    document.getElementById("option2").style.backgroundColor = "#ff9800";
+    document.getElementById("option1").textContent = "";
+    document.getElementById("option2").textContent = "";
 
     startCountdown();
     generateWordPair();
 }
 
-// Start countdown timer
+// **Start countdown timer**
 function startCountdown() {
     clearInterval(timer);
     let timerBar = document.getElementById("timer-bar");
@@ -94,7 +99,7 @@ function startCountdown() {
     }, 1000);
 }
 
-// Generate word pair
+// **Generate word pair**
 function generateWordPair() {
     let pair = phonicsWords[Math.floor(Math.random() * phonicsWords.length)];
     let correctWord = pair[0];
@@ -114,14 +119,13 @@ function generateWordPair() {
 
     [button1, button2].forEach(button => {
         button.style.backgroundColor = "#007bff";
-        button.innerHTML = button.textContent;
         button.onclick = function () {
             checkAnswer(button, correctWord);
         };
     });
 }
 
-// Check answer
+// **Check answer**
 function checkAnswer(selectedButton, correctWord) {
     let isCorrect = selectedButton.textContent === correctWord;
 
@@ -149,7 +153,7 @@ function checkAnswer(selectedButton, correctWord) {
     setTimeout(generateWordPair, 1000);
 }
 
-// End the game
+// **End the game**
 function endGame() {
     clearInterval(timer);
 
@@ -166,40 +170,9 @@ function endGame() {
     loadLeaderboard();
 }
 
-// Submit score to Firebase
-function submitUsername() {
-    let username = document.getElementById("username").value.trim().substring(0, 10);
-
-    if (!username || containsBadWord(username)) {
-        alert("Invalid or inappropriate username. Please try again.");
-        return;
-    }
-
-    let newEntry = push(ref(database, "leaderboard"));
-    set(newEntry, { name: username, score: score, timestamp: new Date().toISOString() });
-
-    document.getElementById("username-container").style.display = "none";
-    loadLeaderboard();
-}
-
-// Load leaderboard
+// **Load leaderboard**
 function loadLeaderboard() {
     let leaderboardList = document.getElementById("leaderboard");
     leaderboardList.innerHTML = "";
-
-    get(query(ref(database, "leaderboard"), orderByChild("score"), limitToLast(10)))
-    .then(snapshot => {
-        let scores = [];
-        snapshot.forEach(childSnapshot => {
-            let entry = childSnapshot.val();
-            scores.push({ name: entry.name, score: entry.score });
-        });
-
-        scores.sort((a, b) => b.score - a.score);
-        scores.forEach(entry => {
-            let li = document.createElement("li");
-            li.textContent = `${entry.name}: ${entry.score}`;
-            leaderboardList.appendChild(li);
-        });
-    });
+    // Firebase leaderboard logic here
 }
