@@ -133,6 +133,24 @@ function generateWordPair() {
     });
 }
 
+// Confetti Effect
+function launchConfetti() {
+    let duration = 1.5 * 1000;
+    let end = Date.now() + duration;
+    
+    (function frame() {
+        confetti({
+            particleCount: 5,
+            spread: 80,
+            origin: { y: 0.6 }
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    })();
+}
+
 function checkAnswer(selectedButton, correctWord, definition) {
     let isCorrect = selectedButton.textContent === correctWord;
 
@@ -141,12 +159,14 @@ function checkAnswer(selectedButton, correctWord, definition) {
     document.getElementById("option2").disabled = true;
 
     if (isCorrect) {
+        launchConfetti(); // 🎆 Launch confetti
         score++;
         document.getElementById("score").textContent = "Score: " + score;
 
         // ✅ Show Green Checkmark
         selectedButton.style.backgroundColor = "#28a745";
         selectedButton.innerHTML = "&#10004;";
+        
     } else {
         lives--;
         document.getElementById("lives").textContent = "Lives: " + lives;
@@ -169,8 +189,6 @@ function checkAnswer(selectedButton, correctWord, definition) {
         document.getElementById("option2").disabled = false;
     }, 1000);
 }
-
-
 
 function endGame() {
     clearInterval(timer);
