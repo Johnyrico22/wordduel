@@ -74,8 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("game-container").style.opacity = "1";
 });
 
-document.getElementById("start-btn").addEventListener("click", startGame);
-
 
 function endGame() {
     clearInterval(timer);
@@ -219,7 +217,7 @@ function checkAnswer(selectedButton, correctWord, definition) {
         document.getElementById("option1").disabled = false;
         document.getElementById("option2").disabled = false;
     }, 1000);
-}
+
 
 function endGame() {
     clearInterval(timer);
@@ -306,6 +304,11 @@ function loadLeaderboard() {
         console.error("Error loading leaderboard:", error);
     });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Attach event listener to Start Game / Play Again button
+    document.getElementById("start-btn").addEventListener("click", startGame);
+});
 
 // Load leaderboard on page load
 window.onload = function() {
