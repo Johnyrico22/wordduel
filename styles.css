@@ -1,3 +1,16 @@
+/* CSS Variables for Colors */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #ff9800;
+    --success-color: #28a745;
+    --error-color: #d32f2f;
+    --background-color: #f9f9f9;
+    --text-color: #333;
+    --highlight-color: #28205f;
+    --light-background: #eef7ff;
+    --light-yellow: #ffffcc;
+}
+
 /* Fade-In & Bounce Effect */
 @keyframes fadeInBounce {
     0% {
@@ -58,7 +71,7 @@ h1 {
 
 /* Instructions Container */
 #instructions-container {
-    background: #f9f9f9; /* Light background */
+    background: var(--background-color);
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -66,20 +79,20 @@ h1 {
 
 #instructions {
     font-size: 16px;
-    color: #333;
+    color: var(--text-color);
     text-align: left;
     line-height: 1.6;
 }
 
 /* Ensure the prompt is visible during the game */
 #prompt-container {
-    background: #eef7ff;
+    background: var(--light-background);
     padding: 12px;
     border-radius: 8px;
     margin-bottom: 15px;
     font-size: 18px;
     font-weight: normal;
-    color: #333;
+    color: var(--text-color);
     display: none;
 }
 
@@ -112,18 +125,18 @@ button {
 }
 
 #start-btn {
-    background-color: #28a745;
+    background-color: var(--success-color);
     color: white;
     font-size: 22px;
 }
 
 #option1 {
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: white;
 }
 
 #option2 {
-    background-color: #ff9800;
+    background-color: var(--secondary-color);
     color: white;
 }
 
@@ -131,9 +144,9 @@ button {
 #definition {
     font-size: 16px;
     margin-top: 15px;
-    color: #333;
+    color: var(--text-color);
     font-style: italic;
-    background-color: #ffffcc;
+    background-color: var(--light-yellow);
     padding: 10px;
     border-radius: 8px;
     display: none;
@@ -143,14 +156,14 @@ button {
 #result {
     font-size: 26px;
     font-weight: bold;
-    color: #d32f2f;
+    color: var(--error-color);
     display: none;
 }
 
 /* Leaderboard */
 #leaderboard-container {
-    display: none; /* ✅ Start hidden */
-    background: #f9f9f9;
+    display: none;
+    background: var(--background-color);
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -163,7 +176,7 @@ button {
 #leaderboard-container h2 {
     font-size: 24px;
     font-weight: bold;
-    color: #007bff;
+    color: var(--primary-color);
     margin-bottom: 15px;
 }
 
@@ -180,7 +193,7 @@ button {
     border-radius: 8px;
     font-size: 18px;
     font-weight: bold;
-    color: #333;
+    color: var(--text-color);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -191,28 +204,28 @@ button {
 
 /* Title Styling */
 #title-container {
-    background: #007bff; /* ✅ Blue background */
-    width: 100%; /* ✅ Full width */
-    padding: 20px 0; /* ✅ Add some padding */
+    background: var(--primary-color);
+    width: 100%;
+    padding: 20px 0;
     text-align: center;
     animation: fadeInBounce 1.5s ease-out;
 }
 
 #game-title {
-    font-size: 48px; /* ✅ Bigger font size */
-    font-weight: 900; /* ✅ Extra bold */
-    color: white; /* ✅ White text */
-    text-transform: uppercase; /* ✅ Makes it look stronger */
+    font-size: 48px;
+    font-weight: 900;
+    color: white;
+    text-transform: uppercase;
     margin: 0;
 }
 
 /* Status Container */
 #status-container {
-    background: #f1f1f1; /* ✅ Light grey background */
-    width: 100%; /* ✅ Full width */
-    padding: 15px 0; /* ✅ Spacing */
+    background: #f1f1f1;
+    width: 100%;
+    padding: 15px 0;
     text-align: center;
-    font-size: 20px; /* ✅ Larger text */
+    font-size: 20px;
     display: flex;
     justify-content: center;
     gap: 20px;
@@ -223,7 +236,7 @@ button {
     display: none;
     margin-top: 20px;
     padding: 15px;
-    background: #f9f9f9;
+    background: var(--background-color);
     border-radius: 10px;
     text-align: center;
 }
@@ -251,15 +264,16 @@ button {
 }
 
 #submit-score-btn {
-    background: #28a745; /* Green */
+    background: var(--success-color);
     color: white;
 }
 
 #skip-score-btn {
-    background: #d32f2f; /* Red */
+    background: var(--error-color);
     color: white;
 }
 
+/* Timer Bar */
 #timer-bar-container {
     width: 100%;
     height: 10px;
@@ -269,10 +283,9 @@ button {
     overflow: hidden;
 }
 
-
 #timer-bar {
     height: 100%;
-    background: #28205f;
+    background: var(--highlight-color);
     width: 100%;
     transition: width 1s linear;
 }
