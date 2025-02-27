@@ -133,22 +133,13 @@ function generateWordPair() {
     });
 }
 
-// Confetti Effect
+// Confetti Effect for Correct Answers 🎉
 function launchConfetti() {
-    let duration = 1.5 * 1000;
-    let end = Date.now() + duration;
-    
-    (function frame() {
-        confetti({
-            particleCount: 5,
-            spread: 80,
-            origin: { y: 0.6 }
-        });
-
-        if (Date.now() < end) {
-            requestAnimationFrame(frame);
-        }
-    })();
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
 }
 
 function checkAnswer(selectedButton, correctWord, definition) {
