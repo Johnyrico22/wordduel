@@ -165,12 +165,11 @@ function submitScore(name, score) {
     });
 }
 
-// Load Leaderboard
 function loadLeaderboard() {
     let leaderboardList = document.getElementById("leaderboard");
     leaderboardList.innerHTML = ""; // ✅ Clear old leaderboard before updating
 
-    // ✅ Query Firebase to get only the 5 highest scores (ordered by score descending)
+    // ✅ Query Firebase to get the 5 highest scores
     get(query(ref(database, "leaderboard"), orderByChild("score"), limitToLast(5)))
     .then((snapshot) => {
         let scores = [];
@@ -180,10 +179,10 @@ function loadLeaderboard() {
             scores.push({ name: entry.name, score: entry.score });
         });
 
-        // ✅ Sort scores in descending order (Firebase returns them in ascending order)
+        // ✅ Firebase returns in ascending order; sort from highest to lowest
         scores.sort((a, b) => b.score - a.score);
 
-        // ✅ Display the top 5 scores only
+        // ✅ Display the top 5 scores
         scores.forEach(entry => {
             let li = document.createElement("li");
             li.textContent = `${entry.name}: ${entry.score}`;
@@ -193,9 +192,6 @@ function loadLeaderboard() {
         console.error("Error loading leaderboard:", error);
     });
 }
-
-
-
 
 // Load leaderboard on page load
 window.onload = function() {

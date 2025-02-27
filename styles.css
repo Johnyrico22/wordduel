@@ -166,3 +166,41 @@ button:active {
     display: none;
 }
 
+/* Leaderboard Container */
+#leaderboard-container {
+    background: #f9f9f9; /* Light background */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+/* Leaderboard Title */
+#leaderboard-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+/* Leaderboard List */
+#leaderboard {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Leaderboard Items */
+#leaderboard li {
+    background: white;
+    padding: 12px;
+    margin: 6px 0;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
