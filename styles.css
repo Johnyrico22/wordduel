@@ -160,12 +160,18 @@ button {
     text-align: center;
 }
 
-#leaderboard-container h2 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #007bff;
-    margin-bottom: 15px;
+#leaderboard-container {
+    display: none; /* ✅ Hidden at first, shown after the game ends */
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
 }
+
 
 #leaderboard {
     list-style-type: none;

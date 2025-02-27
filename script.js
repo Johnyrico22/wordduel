@@ -240,6 +240,10 @@ function endGame() {
         // ✅ Check if the new score is higher than the lowest score in the Top 10
         let lowestTopScore = scores.length < 10 ? 0 : Math.min(...scores);
 
+        // ✅ Always show leaderboard
+        document.getElementById("leaderboard-container").style.display = "block";
+        loadLeaderboard();
+
         if (score > lowestTopScore || scores.length < 10) {
             // ✅ If the player qualifies, show the input form
             document.getElementById("username-container").style.display = "block";
@@ -250,7 +254,6 @@ function endGame() {
         }
     });
 }
-
 
 
 // Submit Score to Firebase
@@ -267,8 +270,7 @@ function loadLeaderboard() {
     let leaderboardList = document.getElementById("leaderboard");
     leaderboardList.innerHTML = ""; // ✅ Clear old leaderboard before updating
 
-    // ✅ Query Firebase to get only the 5 highest scores (ordered by score descending)
-    get(query(ref(database, "leaderboard"), orderByChild("score"), limitToLast(5)))
+    get(query(ref(database, "leaderboard"), orderByChild("score"), limitToLast(10)))
     .then((snapshot) => {
         let scores = [];
 
@@ -277,15 +279,18 @@ function loadLeaderboard() {
             scores.push({ name: entry.name, score: entry.score });
         });
 
-        // ✅ Firebase returns scores in ascending order, so we manually sort from highest to lowest
+        // ✅ Sort scores in descending order (highest first)
         scores.sort((a, b) => b.score - a.score);
 
-        // ✅ Display the top 5 scores only
+        // ✅ Display the top 10 scores
         scores.forEach(entry => {
             let li = document.createElement("li");
             li.textContent = `${entry.name}: ${entry.score}`;
             leaderboardList.appendChild(li);
         });
+
+        // ✅ Ensure leaderboard is visible
+        document.getElementById("leaderboard-container").style.display = "block";
     }).catch(error => {
         console.error("Error loading leaderboard:", error);
     });
