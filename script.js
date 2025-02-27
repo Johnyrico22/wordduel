@@ -199,18 +199,22 @@ const game = (() => {
     startCountdown,
     generateWordPair,
     checkAnswer,
-    endGame
+    endGame,
+    getScore: () => score // Add this getter to access the score
   };
 })();
 
 // Leaderboard Module
 const leaderboard = (() => {
   const submitScore = (name, score) => {
+    console.log("Submitting score:", score); // Debugging statement
     const newEntry = push(ref(database, "leaderboard"));
     set(newEntry, {
       name: name,
       score: score,
       timestamp: new Date().toISOString()
+    }).catch(error => {
+      console.error("Error submitting score:", error);
     });
   };
 
@@ -272,6 +276,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.getElementById("submit-score-btn").addEventListener("click", () => {
   const username = document.getElementById("username").value.trim().substring(0, 10);
+  const score = game.getScore(); // Get the current score
+
+  console.log("Username:", username); // Debugging statement
+  console.log("Score:", score); // Debugging statement
 
   if (!username) {
     alert("Please enter a valid name.");
@@ -283,7 +291,7 @@ document.getElementById("submit-score-btn").addEventListener("click", () => {
     return;
   }
 
-  leaderboard.submitScore(username, game.score);
+  leaderboard.submitScore(username, score);
   leaderboard.loadLeaderboard();
 
   document.getElementById("username-container").style.display = "none";
