@@ -57,9 +57,13 @@ function startGame() {
     document.getElementById("result").style.display = "none";
     document.getElementById("final-score").style.display = "none";
 
+    // ✅ Hide Instructions
+    document.getElementById("instructions-container").style.display = "none";
+
     startCountdown();
     generateWordPair();
 }
+
 
 function startCountdown() {
     clearInterval(timer); // Reset timer
