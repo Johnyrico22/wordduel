@@ -2,45 +2,80 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getDatabase, ref, push, set, orderByChild, limitToLast, get, query } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
-// Firebase Configuration
+// Firebase Configuration (DO NOT expose API keys in index.html)
 const firebaseConfig = {
-    apiKey: "AIzaSyCieuR8-ud_W4aCRfl5Z-OKtxQuHfDFIOQ",
-    authDomain: "word-duel-a6eb9.firebaseapp.com",
-    databaseURL: "https://word-duel-a6eb9-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "word-duel-a6eb9",
-    storageBucket: "word-duel-a6eb9.firebasestorage.app",
-    messagingSenderId: "597092630133",
-    appId: "1:597092630133:web:93ba5b90b311367e85023c",
-    measurementId: "G-HJ83X7XWJJ"
+  apiKey: "AIzaSyCieuR8-ud_W4aCRfl5Z-OKtxQuHfDFIOQ",
+  authDomain: "word-duel-a6eb9.firebaseapp.com",
+  databaseURL: "https://word-duel-a6eb9-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "word-duel-a6eb9",
+  storageBucket: "word-duel-a6eb9.firebasestorage.app",
+  messagingSenderId: "597092630133",
+  appId: "1:597092630133:web:93ba5b90b311367e85023c",
+  measurementId: "G-HJ83X7XWJJ"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Global variables
+//sounds
+const correctSound = new Audio("sounds/correct.mp3");
+const wrongSound = new Audio("sounds/incorrect.mp3");
+
+// Load leaderboard on page load
+window.onload = function() {
+    loadLeaderboard();
+};
+
 let score = 0;
 let lives = 3;
 let timeLeft = 60;
 let timer;
 
-// Sounds
-const correctSound = new Audio("sounds/correct.mp3");
-const wrongSound = new Audio("sounds/incorrect.mp3");
-
-// Attach event listeners once DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("start-btn").addEventListener("click", startGame);
-    document.getElementById("submit-score-btn").addEventListener("click", submitUsername);
-    document.getElementById("skip-score-btn").addEventListener("click", function () {
-        document.getElementById("username-container").style.display = "none";
+    document.getElementById("start-btn").addEventListener("click", function () {
+        console.log("Start button clicked!");
         startGame();
     });
 
-    document.getElementById("game-container").style.opacity = "1"; // Ensure smooth loading animation
+    loadLeaderboard(); // Load leaderboard on page load
 });
 
-// **Start the game**
+document.getElementById("submit-score-btn").addEventListener("click", function() {
+    let username = document.getElementById("username").value.trim().substring(0, 10);
+
+    // ✅ Check if the name contains a banned word
+    if (!username) {
+        alert("Please enter a valid name.");
+        return;
+    }
+    
+    if (containsBadWord(username)) {
+        alert("Inappropriate username detected. Please enter a different name.");
+        return;
+    }
+
+    // ✅ If the name is clean, submit the score
+    submitScore(username, score);
+    loadLeaderboard();
+
+    // Hide username input and show leaderboard
+    document.getElementById("username-container").style.display = "none";
+    document.getElementById("leaderboard-container").style.display = "block";
+    document.getElementById("start-btn").style.display = "block";
+});
+
+
+document.getElementById("skip-score-btn").addEventListener("click", function() {
+    // ✅ Just restart the game without submitting
+    document.getElementById("username-container").style.display = "none";
+    startGame();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("game-container").style.opacity = "1";
+});
+
 function startGame() {
     console.log("Game started!");
 
@@ -56,34 +91,29 @@ function startGame() {
     document.getElementById("timer").style.display = "block";
     document.getElementById("score-lives-container").style.display = "flex";
     document.getElementById("word-container").style.display = "block";
+    document.getElementById("definition").style.display = "none";
     document.getElementById("result").style.display = "none";
     document.getElementById("final-score").style.display = "none";
 
-    // ✅ Hide instructions when the game starts
-    document.getElementById("instructions-container").style.display = "none";
+    // ✅ Hide Instructions
+    document.getElementById("instructions-container").classList.add("hidden");
 
-    // ✅ Ensure the prompt is visible
+    // ✅ Show the prompt container (so that it appears)
     document.getElementById("prompt-container").style.display = "block";
+    document.getElementById("prompt").style.display = "block";
 
-    // ✅ Hide leaderboard & input form
+    // ✅ Ensure the leaderboard is hidden when restarting
     document.getElementById("leaderboard-container").style.display = "none";
-    document.getElementById("username-container").style.display = "none";
-
-    // ✅ Reset and enable buttons with proper text and colors
-    document.getElementById("option1").disabled = false;
-    document.getElementById("option2").disabled = false;
-    document.getElementById("option1").style.backgroundColor = "#007bff";
-    document.getElementById("option2").style.backgroundColor = "#ff9800";
-    document.getElementById("option1").textContent = "";
-    document.getElementById("option2").textContent = "";
 
     startCountdown();
     generateWordPair();
 }
 
-// **Start countdown timer**
+
+
 function startCountdown() {
-    clearInterval(timer);
+    clearInterval(timer); // Reset timer
+
     let timerBar = document.getElementById("timer-bar");
     timerBar.style.width = "100%";
 
@@ -91,6 +121,8 @@ function startCountdown() {
         if (timeLeft > 0) {
             timeLeft--;
             document.getElementById("timer").textContent = "Time: " + timeLeft;
+
+            // ⏳ Reduce timer bar width
             timerBar.style.width = (timeLeft / 60) * 100 + "%";
         } else {
             clearInterval(timer);
@@ -99,7 +131,7 @@ function startCountdown() {
     }, 1000);
 }
 
-// **Generate word pair**
+
 function generateWordPair() {
     let pair = phonicsWords[Math.floor(Math.random() * phonicsWords.length)];
     let correctWord = pair[0];
@@ -113,66 +145,136 @@ function generateWordPair() {
     let button2 = document.getElementById("option2");
 
     document.getElementById("prompt").textContent = sentence.replace("__________", "_____");
+    document.getElementById("prompt").style.display = "block"; // Ensure prompt is visible
 
     button1.textContent = options[0];
     button2.textContent = options[1];
 
     [button1, button2].forEach(button => {
         button.style.backgroundColor = "#007bff";
+        button.innerHTML = button.textContent;
         button.onclick = function () {
-            checkAnswer(button, correctWord);
+            checkAnswer(button, correctWord, sentence.replace("__________", correctWord));
         };
     });
 }
 
-// **Check answer**
-function checkAnswer(selectedButton, correctWord) {
+// Confetti Effect for Correct Answers 🎉
+function launchConfetti() {
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
+}
+
+function checkAnswer(selectedButton, correctWord, definition) {
     let isCorrect = selectedButton.textContent === correctWord;
 
+    // ✅ Disable both answer buttons immediately after one is clicked
     document.getElementById("option1").disabled = true;
     document.getElementById("option2").disabled = true;
 
     if (isCorrect) {
+        launchConfetti(); // 🎆 Launch confetti
+        correctSound.play();
         score++;
         document.getElementById("score").textContent = "Score: " + score;
+
+        // ✅ Show Green Checkmark
         selectedButton.style.backgroundColor = "#28a745";
-        launchConfetti();
-        correctSound.play();
+        selectedButton.innerHTML = "&#10004;";
+        
     } else {
+        wrongSound.play();
         lives--;
         document.getElementById("lives").textContent = "Lives: " + lives;
-        selectedButton.style.backgroundColor = "#d32f2f";
-        wrongSound.play();
 
+        // ✅ Show Red Cross
+        selectedButton.style.backgroundColor = "#d32f2f";
+        selectedButton.innerHTML = "&#10008;";
+
+        // ✅ End game if no lives left
         if (lives === 0) {
             setTimeout(endGame, 1000);
             return;
         }
     }
 
-    setTimeout(generateWordPair, 1000);
+    // ✅ Move to the next question after 1 second & re-enable buttons
+    setTimeout(() => {
+        generateWordPair();
+        document.getElementById("option1").disabled = false;
+        document.getElementById("option2").disabled = false;
+    }, 1000);
 }
 
-// **End the game**
 function endGame() {
     clearInterval(timer);
 
     document.getElementById("prompt-container").style.display = "none";
     document.getElementById("word-container").style.display = "none";
     document.getElementById("score-lives-container").style.display = "none";
+    document.getElementById("timer").style.display = "none";
 
     document.getElementById("result").textContent = "Game Over!";
+    document.getElementById("result").style.fontSize = "32px";
     document.getElementById("result").style.display = "block";
+
     document.getElementById("final-score").textContent = "Final Score: " + score;
     document.getElementById("final-score").style.display = "block";
 
-    document.getElementById("leaderboard-container").style.display = "block";
-    loadLeaderboard();
+    document.getElementById("start-btn").textContent = "Play Again";
+    document.getElementById("start-btn").style.display = "none"; // ✅ Hide until score is handled
+
+    // ✅ Hide leaderboard until the score is submitted
+    document.getElementById("leaderboard-container").style.display = "none";
+
+    // ✅ Show the username input field
+    document.getElementById("username-container").style.display = "block";
 }
 
-// **Load leaderboard**
+
+// Submit Score to Firebase
+function submitScore(name, score) {
+    let newEntry = push(ref(database, "leaderboard"));
+    set(newEntry, {
+        name: name,
+        score: score,
+        timestamp: new Date().toISOString()
+    });
+}
+
 function loadLeaderboard() {
     let leaderboardList = document.getElementById("leaderboard");
-    leaderboardList.innerHTML = "";
-    // Firebase leaderboard logic here
+    leaderboardList.innerHTML = ""; // ✅ Clear old leaderboard before updating
+
+    // ✅ Query Firebase to get only the 5 highest scores (ordered by score descending)
+    get(query(ref(database, "leaderboard"), orderByChild("score"), limitToLast(5)))
+    .then((snapshot) => {
+        let scores = [];
+
+        snapshot.forEach(childSnapshot => {
+            let entry = childSnapshot.val();
+            scores.push({ name: entry.name, score: entry.score });
+        });
+
+        // ✅ Firebase returns scores in ascending order, so we manually sort from highest to lowest
+        scores.sort((a, b) => b.score - a.score);
+
+        // ✅ Display the top 5 scores only
+        scores.forEach(entry => {
+            let li = document.createElement("li");
+            li.textContent = `${entry.name}: ${entry.score}`;
+            leaderboardList.appendChild(li);
+        });
+    }).catch(error => {
+        console.error("Error loading leaderboard:", error);
+    });
 }
+
+
+// Load leaderboard on page load
+window.onload = function() {
+    loadLeaderboard();
+};

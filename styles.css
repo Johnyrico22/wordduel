@@ -1,45 +1,41 @@
+/* Fade-In & Bounce Effect */
+@keyframes fadeInBounce {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInMove {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* General Styling */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to bottom, #cce7ff, #ffffff);
+    background: linear-gradient(to bottom, #cce7ff, #ffffff); /* Light blue to white */
     height: 100vh;
     overflow: hidden;
 }
 
-/* Title Section */
-#title-container {
-    background: #007bff;
-    width: 100%;
-    padding: 20px 0;
-    text-align: center;
-}
-
-#game-title {
-    font-size: 48px;
-    font-weight: 900;
-    color: white;
-    text-transform: uppercase;
-    margin: 0;
-}
-
-/* Status Bar */
-#status-container {
-    background: #f1f1f1;
-    width: 100%;
-    padding: 15px 0;
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    border-bottom: 2px solid #007bff;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-/* Game Container */
 #game-container {
     background: white;
     padding: 20px;
@@ -47,14 +43,22 @@ body {
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
     width: 90%;
     max-width: 400px;
-    margin: 20px auto;
+    margin: 10px auto;
     text-align: center;
     position: relative;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInMove 1.5s ease-out forwards;
 }
 
-/* Instructions */
+h1 {
+    font-size: 24px;
+    color: #ff5733;
+}
+
+/* Instructions Container */
 #instructions-container {
-    background: #f9f9f9;
+    background: #f9f9f9; /* Light background */
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -67,33 +71,31 @@ body {
     line-height: 1.6;
 }
 
-/* Prompt */
+/* Ensure the prompt is visible during the game */
 #prompt-container {
     background: #eef7ff;
     padding: 12px;
     border-radius: 8px;
     margin-bottom: 15px;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: normal;
     color: #333;
     display: none;
 }
 
-/* Timer Bar */
-#timer-bar-container {
-    width: 100%;
-    height: 10px;
-    background: #ddd;
-    margin: 10px 0;
-    border-radius: 5px;
-    overflow: hidden;
+/* Timer & Score Display */
+#timer-container {
+    font-size: 20px;
+    margin: 15px 0;
+    font-weight: normal;
 }
 
-#timer-bar {
-    height: 100%;
-    background: #ff5733;
-    width: 100%;
-    transition: width 1s linear;
+#score-lives-container {
+    font-size: 18px;
+    font-weight: normal;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
 /* Buttons */
@@ -125,7 +127,98 @@ button {
     color: white;
 }
 
-/* Username Input */
+/* Definition Text */
+#definition {
+    font-size: 16px;
+    margin-top: 15px;
+    color: #333;
+    font-style: italic;
+    background-color: #ffffcc;
+    padding: 10px;
+    border-radius: 8px;
+    display: none;
+}
+
+/* Game Over Message */
+#result {
+    font-size: 26px;
+    font-weight: bold;
+    color: #d32f2f;
+    display: none;
+}
+
+/* Leaderboard */
+#leaderboard-container {
+    display: none; /* ✅ Start hidden */
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+#leaderboard-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+#leaderboard {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#leaderboard li {
+    background: white;
+    padding: 12px;
+    margin: 6px 0;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hide Instructions When Game Starts */
+.hidden {
+    display: none !important;
+}
+
+/* Title Styling */
+#title-container {
+    background: #007bff; /* ✅ Blue background */
+    width: 100%; /* ✅ Full width */
+    padding: 20px 0; /* ✅ Add some padding */
+    text-align: center;
+    animation: fadeInBounce 1.5s ease-out;
+}
+
+#game-title {
+    font-size: 48px; /* ✅ Bigger font size */
+    font-weight: 900; /* ✅ Extra bold */
+    color: white; /* ✅ White text */
+    text-transform: uppercase; /* ✅ Makes it look stronger */
+    margin: 0;
+}
+
+/* Status Container */
+#status-container {
+    background: #f1f1f1; /* ✅ Light grey background */
+    width: 100%; /* ✅ Full width */
+    padding: 15px 0; /* ✅ Spacing */
+    text-align: center;
+    font-size: 20px; /* ✅ Larger text */
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Username Input Container */
 #username-container {
     display: none;
     margin-top: 20px;
@@ -135,6 +228,7 @@ button {
     text-align: center;
 }
 
+/* Input Field */
 #username {
     width: 80%;
     max-width: 250px;
@@ -145,6 +239,7 @@ button {
     margin-top: 10px;
 }
 
+/* Buttons */
 #submit-score-btn, #skip-score-btn {
     margin-top: 10px;
     padding: 10px 15px;
@@ -156,24 +251,27 @@ button {
 }
 
 #submit-score-btn {
-    background: #28a745;
+    background: #28a745; /* Green */
     color: white;
 }
 
 #skip-score-btn {
-    background: #d32f2f;
+    background: #d32f2f; /* Red */
     color: white;
 }
 
-/* Leaderboard */
-#leaderboard-container {
-    display: none;
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 400px;
-    margin: 20px auto;
-    text-align: center;
+#timer-bar-container {
+    width: 100%;
+    height: 10px;
+    background: #ddd;
+    margin: 5px 0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#timer-bar {
+    height: 100%;
+    background: #28205f;
+    width: 100%;
+    transition: width 1s linear;
 }
